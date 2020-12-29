@@ -109,6 +109,25 @@ A Makefile ( a simple one) is provided.
 When learning this course, you probably want to start with the professors zip file and expand on it.
 ```
 
+## pausing to create a git repo now...
+
+``` 
+we have a starting point for the project at this point, so I will create the initial git repo
+First, create it locally
+From the top folder:
+
+$ vi .gitignore     # create a simple ignore for C++
+$ git init
+$ git add --all
+$ git commit -m "First commit"
+
+Next, head over to your favorite repo and setup. 
+Once its created, you should set the upstream and push.
+In my case:
+
+git remote add origin git@github.com:steve1281/cppluasdl_udemy.git
+git branch -M main
+git push -u origin main
 
 
 
