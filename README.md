@@ -129,6 +129,42 @@ git remote add origin git@github.com:steve1281/cppluasdl_udemy.git
 git branch -M main
 git push -u origin main
 
+```
 
+### Discussion of tilemaps
+
+```
+tilemap is a matrix of images that are all the same size, and are numbered.
+
+We have a file .png
+
+  +---+---+---+---+
+  | 0 | 2 | 3 | 4 |  
+  +---+---+---+---+
+  | 5 | 6 | 7 | 8 |  
+  +---+---+---+---+
+
+Then, when we want to create the game map (the images to be displayed) we can indicate in out "map" file:
+
+  2,2,3,4,4
+  1,2,2,2,1
+  1,2,2,3,1
+
+etc
+
+We read the map file, load the image in the png tiles, and display.
+
+```
+
+## Work on the make file
+
+```
+we needed to use the ubuntu -llua5.3 
+other than that,
+
+make # works
+make run # works
+make clean # works
+```
 
 
