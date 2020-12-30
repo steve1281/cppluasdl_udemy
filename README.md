@@ -167,4 +167,55 @@ make run # works
 make clean # works
 ```
 
+## setting up on Windows Visual Studio.
+
+```
+I am not sure I want to bother with this?
+
+Start with installing Visual Studio.
+(I already use 17 for unity and what not, so done.)
+
+... Not sure what to say here. It took a long time to add all the header files and library files, but its
+a fairly straight ofrward process - project - properties etc etc. There are some nice things about using a IDE, 
+like debugging and such, so maybe we will revisit later....
+```
+
+## The Game Loop
+
+```
+What is it?
+
+  +-> process -> update -> render -> +
+  |                                  |
+  +----------------------------------+
+
+Frame by frame update.
+Process any inputs.  Update the game state.  Render the game state.
+
+while(true) {
+  game->processInput();
+  game->update();
+  game->render();
+}
+
+```
+
+### Some vim notes
+
+```
+tabe <filename>
+gt
+```
+
+also:
+
+```
+set omnifunc=syntaxcomplete#Complete
+
+and
+
+To use omni completion, type <C-X><C-O> while open in Insert mode. If matching names are found, a pop-up menu opens which can be navigated using the <C-N> and <C-P> keys. 
+
+```
+
 

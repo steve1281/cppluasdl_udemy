@@ -13,5 +13,7 @@ build:
 clean:
 	rm ./game;
 
-run:
+run: build
 	./game;
+
+
