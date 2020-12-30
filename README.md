@@ -284,3 +284,125 @@ SDL_RenderPresent(renderer);
 
 ```
 
+## Entity-Component
+
+```
+Data driven ? The game is a collection of data ... and based on this data, the engine does stuff.
+
+Division of responsibilities.
+
+Organizing game objects:
+Scene
+  - things (the all live in the scene)
+
+Inheritance approach - they are objects. 
+Thing 
+   Player
+   Enemy
+   Obstacle
+   Light
+
+But, in our case, instructor doesn't like this approach in this case.
+(his arguement pivots on "programmers suck, lets not do this" oh well)
+
+Instead, think in terms of "Game Objects"
+so a meta objects that as a series of data items
+"Entity-Componment"
+
+
+Entity(Player)
+Entity(Enemy)
+Entity(DoorTrigger)
+
+Entity will have , for example, a TransformCompotent that we can add. Or a ColliderCompenent.
+A different Entity, might had a TransformComponent, and a SpriteComponent.
+
+If this sound like unity, I doubt thats an accident.
+
+So classes:
+
+Entity:
+   List<Components>
+      Update()
+      Render()
+
+Component
+   Transform Component
+   Sprite Component
+   Collider Component
+   ParticleEmitter Component
+
+So, for example
+
+class Entity {
+    vector<Component*> components;
+    AddComponent<T>(compnent(;
+    Update();
+    Render();
+}
+
+Need an EntityManager
+
+class EntityManager {
+    vector<Entity*> entities;
+
+    AddEntity(entity);
+    GetEntity(string entityName);
+    Update();
+    Render();
+}
+
+Need a parent class Component
+
+class Compnent {
+    Entity* owner;
+    virtual Update();
+    virtual Render();
+}
+
+[comment: he has a entity manager, and owner pointer? interesting. and redundant, I think.]
+
+So, we could create a child of the component like this:
+
+class TransformComponent: public Component {
+    glm::vec2 position;
+    int width;
+    int height;
+    float scale;
+
+    Update() override {
+    ...
+    }
+    Renderer() override {
+    ...
+    }
+}
+
+[sigh, he creates a position vector, but not a one for width and height? ok doke.]
+
+And another:
+
+class ColliderComponent : public Component {
+    SDL_Rect collider;
+    Update() override {
+    ...
+    }
+    Renderer() override {
+    ...
+    }
+}
+
+So, the game loop changes.
+
+Game holds the Entity manager.
+  EntityManager holds a list of entities
+  for each entity, update and render
+    Entity have a list of components
+    each components, Update and Render
+
+[chain of responsibility]
+
+````
+
+
+    
