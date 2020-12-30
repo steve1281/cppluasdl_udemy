@@ -68,8 +68,10 @@ void Game::ProcessInput() {
 void Game::Update() {
 
     // Wait until 16ms (for 60fps) has elapsed since the last frame
-    // if necesary.
-    while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticksLastFrame + FRAME_TARGET_TIME));
+    int timeToWait = FRAME_TARGET_TIME - (SDL_GetTicks() - ticksLastFrame);
+    if (timeToWait > 0 && timeToWait <= FRAME_TARGET_TIME) {
+        SDL_Delay(timeToWait);
+    }
 
     float deltaTime = (SDL_GetTicks() - ticksLastFrame) /1000.0f;
     

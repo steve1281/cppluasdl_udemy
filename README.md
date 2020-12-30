@@ -246,3 +246,18 @@ Framerate is no longer important.
 
 ```
 
+### SDL_Delay
+
+```
+we used a while loop. but, maybe, this isnt great.
+in the real world, a while loop is a processor instruction. So it locks the core.
+(you may have noticed that it had a hard time catching your esc key? yah? yah.)
+The while loop will use up 100% of the CPU core. So yah, this is bad.
+
+Use a "proper" delay function.
+
+SDL_Delay(Uint32 ms);  
+
+so obviously, this uses a sleep, and a releases the CPU. (The CPU will wake us up.)
+
+```
