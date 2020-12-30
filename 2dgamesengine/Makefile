@@ -11,9 +11,11 @@ build:
 	-lSDL2_mixer;
 
 clean:
-	rm ./game;
+	-rm ./game;
 
 run: build
 	./game;
 
+add: clean
+	git add --all
 

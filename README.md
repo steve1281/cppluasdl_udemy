@@ -218,4 +218,31 @@ To use omni completion, type <C-X><C-O> while open in Insert mode. If matching n
 
 ```
 
+## Fixing the timestep
+
+```
+need to set the "speed" of the frame displays.
+By default, a while (true) ... loop will go as fast as the CPU can handle it.
+So, it will vary based on the CPU.
+
+Need to think "how many pixels per delta time"
+So:
+
+float deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
+
+note that stuff comes in milliseconds, so divide by 1000 to be seconds.
+
+deltatime is the amount elapsed since the last frame
+we can now think in pixels per second
+
+so:
+
+projectile.position.x += 20 * deltaTime; 
+
+will vary based on the time.
+
+So, the object might "jump", but it will always end up where its supposed to be.
+Framerate is no longer important.
+
+```
 
