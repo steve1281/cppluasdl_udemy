@@ -261,3 +261,26 @@ SDL_Delay(Uint32 ms);
 so obviously, this uses a sleep, and a releases the CPU. (The CPU will wake us up.)
 
 ```
+
+## Double Buffering
+
+```
+Discussion about double buffer.
+- color buffer
+- back buffer
+- front buffer
+
+swap buffers, prevents flickering and artifcats
+
+1. clear the back buffer
+2. draw all the game objects
+3. swap front and back buffers
+
+SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+...
+SDL_RenderClear(renderer);
+... // draw all game objects on back buffer
+SDL_RenderPresent(renderer);
+
+```
+
