@@ -50,6 +50,20 @@ void Game::Initialize(int width, int height) {
 void Game::LoadLevel(int levelNumber) {
     Entity& newEntity(manager.AddEntity("projectile"));
     newEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
+
+    // he asked us to add some additional projectiles as a "test" of the system
+    // so, super easy, add some:
+
+    Entity& newEntity2(manager.AddEntity("projectile2"));
+    newEntity2.AddComponent<TransformComponent>(WINDOW_WIDTH-32, WINDOW_HEIGHT-32, -20, -20, 32, 32, 1);
+
+    Entity& newEntity3(manager.AddEntity("projectile3"));
+    newEntity3.AddComponent<TransformComponent>(WINDOW_WIDTH-32, 0, -20, 20, 32, 32, 1);
+
+    Entity& newEntity4(manager.AddEntity("projectile4"));
+    newEntity4.AddComponent<TransformComponent>(0, WINDOW_HEIGHT-32, 20, -20, 32, 32, 1);
+
+    manager.ListOutEntities();
 }
 
 void Game::ProcessInput() {

@@ -13,8 +13,8 @@ class Entity {
     private:
         EntityManager& manager;
         bool isActive;
-        std::vector<Component*> components;
     public:
+        std::vector<Component*> components;
         std::string name;
         Entity(EntityManager& manager);
         Entity(EntityManager& manager, std::string name);
