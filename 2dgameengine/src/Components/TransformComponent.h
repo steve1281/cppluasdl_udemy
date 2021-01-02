@@ -2,13 +2,9 @@
 #define TRANSFORMCOMPONENT_H
 
 #include "../EntityManager.h"
-#include "../Component.h"
 #include "../../lib/glm/glm.hpp"
 #include <SDL2/SDL.h>
 #include "../Game.h"
-
-#include <vector>
-#include <string>
 
 class TransformComponent: public Component {
     public:
@@ -26,13 +22,16 @@ class TransformComponent: public Component {
             scale = s;
         }
 
-        void Initialize() override {}
-        void Update(float deltaTime) {
+        void Initialize() override {
+        
+        }
+
+        void Update(float deltaTime) override {
             position.x += velocity.x * deltaTime;
             position.y += velocity.y * deltaTime;
         }
 
-        void Render() override() {
+        void Render() override {
             SDL_Rect transformRectangle = {
                 (int) position.x,
                 (int) position.y,
@@ -42,11 +41,6 @@ class TransformComponent: public Component {
             SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
             SDL_RenderFillRect(Game::renderer, &transformRectangle);
         }
-
-
-
-    private:
-
+};
 
 #endif
-

@@ -4,7 +4,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
+#include "./Entity.h"
+#include "./Component.h"
+#include "./EntityManager.h"
+
 
 class Game {
     private:
@@ -13,9 +16,9 @@ class Game {
     public:
         Game();
         ~Game();
-        int ticksLastFrame;
+        int ticksLastFrame=0;
         bool IsRunning() const;
-        static SDL_Renderer *renderer; // changed to class wide static cause its used everywhere.
+        static SDL_Renderer *renderer; 
         void LoadLevel(int levelNumber);
         void Initialize(int width, int height);
         void ProcessInput();
@@ -24,7 +27,5 @@ class Game {
         void Destroy();
 
 };
-
-
 
 #endif

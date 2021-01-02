@@ -405,4 +405,36 @@ Game holds the Entity manager.
 ````
 
 
-    
+## C++ Generics some notes
+
+```
+auto& newEntity(manager.AddEntity("Player"));
+
+newEntity.AddComponent<TransformComponent>(10,10,40,40,40,40,1);
+newEntity.AddComponent<SpriteComponent>("tank-image.png");
+
+```
+So, just not that between `<` and `>` is a type with a defined `template`.
+
+Lets look at a template:
+
+```
+template <typename T, typename... TArgs>
+T& AddComponent(TArgs&&... args) {
+    T* component(new T(std::forward<TArgs>(args)...));
+    component->entity = this;
+    components.emplace_back(component);
+    component->Initialize();
+    return *component;
+}
+```
+
+Notes:
+```
+T : is the type of the component
+TArgs : are the types of the arguments 
+```
+
+
+
+ 

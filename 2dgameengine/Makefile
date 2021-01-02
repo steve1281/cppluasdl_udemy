@@ -18,4 +18,3 @@ run: build
 
 add: clean
 	git add --all
-
