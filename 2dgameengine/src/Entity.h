@@ -39,6 +39,8 @@ class Entity {
         T* GetComponent() {
             return static_cast<T*>(componentTypeMap[&typeid(T)]);
         }
+
+        void ListOutComponents();
 };
 
 #endif

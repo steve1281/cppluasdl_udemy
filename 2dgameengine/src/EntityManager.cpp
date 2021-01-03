@@ -41,13 +41,9 @@ unsigned int EntityManager::GetEntityCount() {
 // as per execerise add ListOut* methods
 
 void EntityManager::ListOutEntities() {
-    // this will dump what he wants, but a better way would to create and maintain a map of components/identifiers.
-    // I think I will leave this as is for now, until I see what he actually has in mind.
     for (auto& entity: entities) {
         std::cout<< "Entity Name: " << entity->name << std::endl;
-        for (auto& component: entity->components) {
-            std::cout << "\t" << typeid(*component).name() << std::endl;
-        }
+        entity->ListOutComponents();
     }
 }
 
