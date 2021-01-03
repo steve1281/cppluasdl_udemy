@@ -437,4 +437,26 @@ TArgs : are the types of the arguments
 
 
 
- 
+## About Sprites
+
+Recall a folder called assets/images.
+
+
+In his game:
+* sprite has a transparent background
+* 32x32 pixels 
+* pointer to asset manager
+* has file map 
+
+Animated sprites:
+* one png file, transparent background
+* but, broken into cells of equal size 2x4
+* so you can cut 32x32 images
+* SDL has utility for this.
+* he has arranged so that top down is a change in direction
+* so pressing an arrow key, change sprite down to the corrasponding cell.
+* first column to second column basically moved the blades - so standing still animation
+
+OK, back to code. :-)
+```
+
