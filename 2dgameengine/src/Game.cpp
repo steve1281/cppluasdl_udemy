@@ -62,6 +62,7 @@ void Game::LoadLevel(int levelNumber) {
     newEntity.AddComponent<SpriteComponent>("tank-image");
 
     manager.ListOutEntities();
+    manager.AnyTransforms();
 }
 
 void Game::ProcessInput() {

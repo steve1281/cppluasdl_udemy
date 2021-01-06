@@ -19,6 +19,7 @@ class EntityManager {
 
         // as an exercise, add couple methods...
         void ListOutEntities();
+        void AnyTransforms();
 };
 
 #endif

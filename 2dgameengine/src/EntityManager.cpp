@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "./EntityManager.h"
+#include "./Components/TransformComponent.h"
+#include "./Components/SpriteComponent.h"
+#include "./Components/NoSuchComponent.h"
 
 void EntityManager::ClearData() {
     for (auto& entity: entities) {
@@ -44,6 +47,14 @@ void EntityManager::ListOutEntities() {
     for (auto& entity: entities) {
         std::cout<< "Entity Name: " << entity->name << std::endl;
         entity->ListOutComponents();
+    }
+}
+
+void EntityManager::AnyTransforms() {
+    for (auto& entity: entities) {
+        std::cout << (entity->HasComponent<TransformComponent>() ? "has TransformComponent":"no TransformComponent")  << std::endl;
+        std::cout << (entity->HasComponent<SpriteComponent>() ? "has SpriteComponent":"no SpriteComponent")  << std::endl;
+        std::cout << (entity->HasComponent<NoSuchComponent>() ? "has NoSuchComponent":"no NoSuchComponent")  << std::endl;
     }
 }
 

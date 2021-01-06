@@ -40,6 +40,12 @@ class Entity {
             return static_cast<T*>(componentTypeMap[&typeid(T)]);
         }
 
+        template <typename T>
+        bool HasComponent() {
+            return (componentTypeMap[&typeid(T)] != NULL);
+        }
+
+
         void ListOutComponents();
 };
 
