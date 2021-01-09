@@ -2,6 +2,7 @@
 #include "./Constants.h"
 #include "./Game.h"
 #include "./AssetManager.h"
+#include "./Map.h"
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
 #include "./Components/KeyboardControlComponent.h"
@@ -11,6 +12,7 @@ EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
+Map* map;
 
 Game::Game() {
     this->isRunning = false;
@@ -58,6 +60,10 @@ void Game::LoadLevel(int levelNumber) {
     assetManager->AddTexture("tank-image", std::string("./assets/images/tank-big-right.png").c_str());
     assetManager->AddTexture("chopper-image", std::string("./assets/images/chopper-spritesheet.png").c_str());
     assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
+    assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
+
+    map = new Map("jungle-tiletexture", 2, 32);
+    map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
 
     // start including entities and their components
     Entity& tankEntity(manager.AddEntity("tank"));
@@ -74,8 +80,8 @@ void Game::LoadLevel(int levelNumber) {
     radarEntity.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
     radarEntity.AddComponent<SpriteComponent>("radar-image",8,150,false,true);
 
-    manager.ListOutEntities();
-    manager.AnyTransforms();
+    //manager.ListOutEntities();
+    //manager.AnyTransforms();
 }
 
 void Game::ProcessInput() {

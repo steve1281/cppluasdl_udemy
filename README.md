@@ -463,3 +463,17 @@ Animated sprites:
 OK, back to code. :-)
 ```
 
+## Maps and Tiles
+
+First, need t give credit, asset for tiles copied from:
+https://github.com/carlbirch/BirchEngine/blob/master/BirchEngine/assets/terrain_ss.png
+Also borrowed the map file. 
+
+Next,
+
+Recall .map and .png files. (so jungle.png and jungle.map)
+
+So we need to read the csv file. And then load the vector of tiles based on this.
+So, the png is a "texture"
+Also, we have a camera, which tracks what part of the map should move. 
+
