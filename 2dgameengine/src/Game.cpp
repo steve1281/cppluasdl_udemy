@@ -66,7 +66,7 @@ void Game::LoadLevel(int levelNumber) {
 
     //chopper - player
     Entity& chopperEntity(manager.AddEntity("chopper"));
-    chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
+    chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1, true);
     chopperEntity.AddComponent<SpriteComponent>("chopper-image",2,90,true,false);
     chopperEntity.AddComponent<KeyboardControlComponent>("up","right","down","left","space");
 
