@@ -4,6 +4,9 @@
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
 #include "./Components/NoSuchComponent.h"
+#include "./Collision.h"
+#include "./Components/ColliderComponent.h"
+
 
 void EntityManager::ClearData() {
     for (auto& entity: entities) {
@@ -68,5 +71,20 @@ void EntityManager::AnyTransforms() {
         std::cout << (entity->HasComponent<SpriteComponent>() ? "has SpriteComponent":"no SpriteComponent")  << std::endl;
         std::cout << (entity->HasComponent<NoSuchComponent>() ? "has NoSuchComponent":"no NoSuchComponent")  << std::endl;
     }
+}
+
+std::string EntityManager::CheckEntityCollisions(Entity& myEntity) const {
+    ColliderComponent* myCollider = myEntity.GetComponent<ColliderComponent>();
+    for (auto& entity: entities) {
+        if (entity->name.compare(myEntity.name) != 0 && entity->name.compare("Tile")) {
+           if (entity->HasComponent<ColliderComponent>()) {
+                ColliderComponent* otherCollider = entity->GetComponent<ColliderComponent>();
+                if (Collision::CheckRectangleCollision(myCollider->collider, otherCollider->collider)){
+                    return otherCollider->colliderTag;
+                }
+            }
+        }
+    }
+    return std::string();
 }
 
