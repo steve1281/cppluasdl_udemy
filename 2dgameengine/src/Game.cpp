@@ -12,6 +12,7 @@ EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
+SDL_Rect Game::camera = {0,0,WINDOW_WIDTH, WINDOW_HEIGHT};
 Map* map;
 
 Game::Game() {
@@ -54,6 +55,8 @@ void Game::Initialize(int width, int height) {
     return;
 }
 
+Entity& player(manager.AddEntity("chopper", PLAYER_LAYER));
+
 void Game::LoadLevel(int levelNumber) {
 
     // load assets
@@ -67,14 +70,13 @@ void Game::LoadLevel(int levelNumber) {
 
     // start including entities and their components
     Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
-    tankEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
+    tankEntity.AddComponent<TransformComponent>(150, 495, 5, 0, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
 
     //chopper - player
-    Entity& chopperEntity(manager.AddEntity("chopper", PLAYER_LAYER));
-    chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1, true);
-    chopperEntity.AddComponent<SpriteComponent>("chopper-image",2,90,true,false);
-    chopperEntity.AddComponent<KeyboardControlComponent>("up","right","down","left","space");
+    player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1, true);
+    player.AddComponent<SpriteComponent>("chopper-image",2,90,true,false);
+    player.AddComponent<KeyboardControlComponent>("up","right","down","left","space");
 
     Entity& radarEntity(manager.AddEntity("radar", UI_LAYER));
     radarEntity.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
@@ -116,6 +118,8 @@ void Game::Update() {
     ticksLastFrame = SDL_GetTicks();
 
     manager.Update(deltaTime);
+
+    HandleCameraMovement();
 }
 
 void Game::Render() {
@@ -130,6 +134,20 @@ void Game::Render() {
 
     SDL_RenderPresent(renderer);
 }
+
+void Game::HandleCameraMovement() {
+    TransformComponent* mainPlayerTransform = player.GetComponent<TransformComponent>();
+    camera.x = mainPlayerTransform->position.x - (WINDOW_WIDTH /2);
+    camera.y = mainPlayerTransform->position.y - (WINDOW_HEIGHT/2);
+
+    // clamp
+    camera.x = camera.x < 0 ? 0:camera.x;
+    camera.y = camera.y < 0 ? 0:camera.y;
+    camera.x = camera.x > camera.w ? camera.w :camera.x;
+    camera.h = camera.y > camera.h ? camera.h :camera.y;
+
+}
+
 
 void Game::Destroy() {
     SDL_DestroyRenderer(renderer);
