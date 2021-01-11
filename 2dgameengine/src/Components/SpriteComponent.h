@@ -25,6 +25,7 @@ class SpriteComponent: public Component  {
     public:
         SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
         SpriteComponent(const char* filePath) {
+            std::cout << "WARNING: Deprecated constructor called. For: " << filePath << " ." <<std::endl;
             isAnimated = false;
             isFixed = false;
             SetTexture(filePath);
@@ -32,11 +33,10 @@ class SpriteComponent: public Component  {
 
         SpriteComponent(std::string id, 
                 int numFrames, 
-                int animationSpeed, 
+                int animationSpeed, // if animationSpeed is 0, then this isn't animated. 
                 bool hasDirections, 
-                bool isFixed/*, 
-                const char* filePath*/) {
-            this->isAnimated = true;   
+                bool isFixed) {
+            this->isAnimated = animationSpeed == 0 ? false:true;   
             this->numFrames = numFrames;
             this->animationSpeed = animationSpeed;
             this->isFixed = isFixed;
@@ -73,8 +73,8 @@ class SpriteComponent: public Component  {
 
         }
 
-
         void SetTexture(std::string assetTextureId) {
+            std::cout << "assetTextureId is " << assetTextureId << std::endl;
             texture = Game::assetManager->GetTexture(assetTextureId);
         }
 
@@ -100,7 +100,6 @@ class SpriteComponent: public Component  {
         void Render() override {
             TextureManager::Draw(texture, sourceRectangle, destinationRectangle, spriteFlip);
         }
-
 };
 
 

@@ -6,6 +6,7 @@
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
 #include "./Components/ColliderComponent.h"
+#include "./Components/ColliderBoxComponent.h"
 #include "./Components/KeyboardControlComponent.h"
 #include "../lib/glm/glm.hpp"
 
@@ -65,26 +66,32 @@ void Game::LoadLevel(int levelNumber) {
     assetManager->AddTexture("chopper-image", std::string("./assets/images/chopper-spritesheet.png").c_str());
     assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
     assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
+    assetManager->AddTexture("collision-texture", std::string("./assets/images/collision-texture.png").c_str());
 
     map = new Map("jungle-tiletexture", 2, 32);
     map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
 
     // start including entities and their components
+    // tank - enemy
     Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
     tankEntity.AddComponent<TransformComponent>(150, 495, 5, 0, 32, 32, 1);
-    tankEntity.AddComponent<SpriteComponent>("tank-image");
+    tankEntity.AddComponent<SpriteComponent>("tank-image",1,0,false, false); 
     tankEntity.AddComponent<ColliderComponent>("enemy", 150, 495, 32, 32);
+    //tankEntity.AddComponent<ColliderBoxComponent>("collision-texture");
 
-    //chopper - player
+    // chopper - player
     player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1, true);
-    player.AddComponent<SpriteComponent>("chopper-image",2,90,true,false);
+    player.AddComponent<SpriteComponent>("chopper-image",2,90,true,false); // id,numFrames,animSpeed,hasDirections,isFixed   
     player.AddComponent<KeyboardControlComponent>("up","right","down","left","space");
     player.AddComponent<ColliderComponent>("player", 240, 106, 32, 32);
+    player.AddComponent<ColliderBoxComponent>("tank-image"); //collision-texture");
 
+    // radar
     Entity& radarEntity(manager.AddEntity("radar", UI_LAYER));
     radarEntity.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
     radarEntity.AddComponent<SpriteComponent>("radar-image",8,150,false,true);
 
+    
     //manager.ListOutEntities();
     //manager.AnyTransforms();
 }
