@@ -74,7 +74,6 @@ class SpriteComponent: public Component  {
         }
 
         void SetTexture(std::string assetTextureId) {
-            std::cout << "assetTextureId is " << assetTextureId << std::endl;
             texture = Game::assetManager->GetTexture(assetTextureId);
         }
 

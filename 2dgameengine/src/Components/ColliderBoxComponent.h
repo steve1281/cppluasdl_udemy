@@ -23,13 +23,12 @@ class ColliderBoxComponent: public Component  {
         }
 
         void Update(float deltaTime) override { 
-              sourceRectangle.y = transform->height ;
+              //sourceRectangle.y = transform->height ;
 
               destinationRectangle.x = static_cast<int>(transform->position.x) -  Game::camera.x;
               destinationRectangle.y = static_cast<int>(transform->position.y) -  Game::camera.y;
               destinationRectangle.w = static_cast<int>(transform->width * transform->scale) ;
               destinationRectangle.h = static_cast<int>(transform->height * transform->scale) ;
-              std::cout << destinationRectangle.x << ","<< destinationRectangle.y << std::endl;
         }
 
         void Render() override { 
