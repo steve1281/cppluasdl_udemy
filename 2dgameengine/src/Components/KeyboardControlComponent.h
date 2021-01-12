@@ -5,6 +5,7 @@
 #include "../EntityManager.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/SpriteComponent.h"
+#include "../Components/ColliderBoxComponent.h"
 
 
 class KeyboardControlComponent: public Component {
@@ -16,10 +17,20 @@ class KeyboardControlComponent: public Component {
         std::string rightKey;
         std::string leftKey;
         std::string shootKey;
+        std::string toggleCol;
+
         TransformComponent *transform;
         SpriteComponent *sprite;
+        ColliderBoxComponent *box;
 
-        KeyboardControlComponent(){}
+        void GlobalKeys() {
+            this->toggleCol= GetSDLKeyStringCode("c");
+        }
+
+        KeyboardControlComponent(){
+            GlobalKeys();
+        }
+
         KeyboardControlComponent(
                 std::string upKey,
                 std::string rightKey,
@@ -27,11 +38,15 @@ class KeyboardControlComponent: public Component {
                 std::string leftKey,
                 std::string shootKey
                 ){
-           this->upKey    = GetSDLKeyStringCode(upKey); 
-           this->rightKey = GetSDLKeyStringCode(rightKey); 
-           this->leftKey  = GetSDLKeyStringCode(leftKey); 
-           this->downKey  = GetSDLKeyStringCode(downKey); 
-           this->shootKey = GetSDLKeyStringCode(shootKey); 
+
+            // Local Keys
+            this->upKey    = GetSDLKeyStringCode(upKey); 
+            this->rightKey = GetSDLKeyStringCode(rightKey); 
+            this->leftKey  = GetSDLKeyStringCode(leftKey); 
+            this->downKey  = GetSDLKeyStringCode(downKey); 
+            this->shootKey = GetSDLKeyStringCode(shootKey); 
+
+            GlobalKeys();
         }
 
     std::string GetSDLKeyStringCode(std::string key) {
@@ -47,6 +62,7 @@ class KeyboardControlComponent: public Component {
     void Initialize() override {
         transform = owner->GetComponent<TransformComponent>();
         sprite = owner->GetComponent<SpriteComponent>();
+        box = owner->GetComponent<ColliderBoxComponent>();
     }
 
     void Update(float deltaTime) override {
@@ -76,6 +92,10 @@ class KeyboardControlComponent: public Component {
             if (keyCode.compare(shootKey) == 0) {
                 // todo: need to code in projectiles.
             }
+            if (keyCode.compare(toggleCol) == 0) {
+                if (box) box->Toggle();
+            }
+
         }
         if (Game::event.type == SDL_KEYUP) {
             std::string keyCode = std::to_string(Game::event.key.keysym.sym);

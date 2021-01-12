@@ -3,6 +3,7 @@
 #include "./EntityManager.h"
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
+#include "./Components/ColliderBoxComponent.h"
 #include "./Components/NoSuchComponent.h"
 #include "./Collision.h"
 #include "./Components/ColliderComponent.h"

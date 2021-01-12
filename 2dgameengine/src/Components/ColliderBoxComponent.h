@@ -9,6 +9,7 @@ class ColliderBoxComponent: public Component  {
         SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
         SDL_Rect sourceRectangle;
         SDL_Rect destinationRectangle;
+        bool display = false; // initially, don't display the collision box.
 
     public:
         ColliderBoxComponent(std::string id) {
@@ -23,8 +24,6 @@ class ColliderBoxComponent: public Component  {
         }
 
         void Update(float deltaTime) override { 
-              //sourceRectangle.y = transform->height ;
-
               destinationRectangle.x = static_cast<int>(transform->position.x) -  Game::camera.x;
               destinationRectangle.y = static_cast<int>(transform->position.y) -  Game::camera.y;
               destinationRectangle.w = static_cast<int>(transform->width * transform->scale) ;
@@ -32,12 +31,19 @@ class ColliderBoxComponent: public Component  {
         }
 
         void Render() override { 
-            TextureManager::Draw(texture, sourceRectangle, destinationRectangle, spriteFlip);
+            if (display) {
+                TextureManager::Draw(texture, sourceRectangle, destinationRectangle, spriteFlip);
+            }
         }
 
         void SetTexture(std::string id) {
             texture = Game::assetManager->GetTexture(id);
         }
+
+        void Toggle() {
+            display = !display;
+        }
+
 };
 
 

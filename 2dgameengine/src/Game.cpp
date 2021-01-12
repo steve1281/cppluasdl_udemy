@@ -78,13 +78,14 @@ void Game::LoadLevel(int levelNumber) {
     tankEntity.AddComponent<SpriteComponent>("tank-image",1,0,false, false); 
     tankEntity.AddComponent<ColliderComponent>("enemy", 150, 495, 32, 32);
     tankEntity.AddComponent<ColliderBoxComponent>("collision-texture");
+    tankEntity.AddComponent<KeyboardControlComponent>();
 
     // chopper - player
     player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1, true);
     player.AddComponent<SpriteComponent>("chopper-image",2,90,true,false); // id,numFrames,animSpeed,hasDirections,isFixed   
+    player.AddComponent<ColliderBoxComponent>("collision-texture");
     player.AddComponent<KeyboardControlComponent>("up","right","down","left","space");
     player.AddComponent<ColliderComponent>("player", 240, 106, 32, 32);
-    player.AddComponent<ColliderBoxComponent>("collision-texture");
 
     // radar
     Entity& radarEntity(manager.AddEntity("radar", UI_LAYER));
