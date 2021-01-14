@@ -64,8 +64,10 @@ $ brew install sdl2_mixer
 $ brew install lua
 
 also, in the Makefile you will use -llua  
-
 ```
+(I added a Makefile.mac for this.  To use this, simply `make -f Makefile.mac`)
+
+
 
 ### Windows
 
@@ -73,15 +75,11 @@ Mac/Linux are programmer friendly. So, now, Windows.
 
 ```
 Visual Studio is pretty much required here.
-(the plan is to switch between the gui and command line; recommendation is to learn cmd line though)
-[personal note:  I wonder if he would mind if I just ignored the Windows part of this?]
-
-Also, for editing, he recommends that people use Visual Studio Code, no matter which OS. Note that this
-is not the same as Visual Studio.  [I don't agree, vscode configuration is worse than MAVEN to setup IMHO]
+@todo: Add Windows notes here.
 
 ```
 
-## Folder Structure of our System
+## (Initial) Folder Structure 
 ```
 .
 └── 2dgamesengine
@@ -102,17 +100,18 @@ is not the same as Visual Studio.  [I don't agree, vscode configuration is worse
 
 ```
 
-### files included with course
+### Files included with course
 
 ```
 A large number of assets are provided with the course.
-The lua and glm files are included. (I am not familair with glm, but I see some vector/matrix stuff in there)
+The lua and glm files are included. 
 A Makefile ( a simple one) is provided.
+Assets (images, sounds, fonts) are provided.
 
-When learning this course, you probably want to start with the professors zip file and expand on it.
+When learning this course, start with the professors zip file and expand on it.
 ```
 
-## pausing to create a git repo now...
+## Create a git repo 
 
 ``` 
 we have a starting point for the project at this point, so I will create the initial git repo
@@ -162,7 +161,7 @@ We read the map file, load the image in the png tiles, and display.
 ## Work on the make file
 
 ```
-we needed to use the ubuntu -llua5.3 
+I (primariliy) work in ubuntu neeed to use the ubuntu -llua5.3 
 other than that,
 
 make # works
@@ -173,14 +172,17 @@ make clean # works
 ## setting up on Windows Visual Studio.
 
 ```
-I am not sure I want to bother with this?
 
 Start with installing Visual Studio.
 (I already use 17 for unity and what not, so done.)
 
-... Not sure what to say here. It took a long time to add all the header files and library files, but its
-a fairly straight ofrward process - project - properties etc etc. There are some nice things about using a IDE, 
-like debugging and such, so maybe we will revisit later....
+Not sure what to say here. It took a long time to add all the header 
+files and library files, but it is a fairly straight forward process - project - properties etc. 
+There are some nice things about using a IDE, like debugging and such, 
+so maybe we will revisit later.
+
+@todo: clean up notes for Windows installation.
+
 ```
 
 ## The Game Loop
@@ -217,14 +219,18 @@ set omnifunc=syntaxcomplete#Complete
 
 and
 
-To use omni completion, type <C-X><C-O> while open in Insert mode. If matching names are found, a pop-up menu opens which can be navigated using the <C-N> and <C-P> keys. 
+To use omni completion, type <C-X><C-O> while open in Insert mode. 
+If matching names are found, a pop-up menu opens which can be navigated 
+using the <C-N> and <C-P> keys. 
+
+@todo: This doesn't work on my ubuntu; re-visit.
 
 ```
 
 ## Fixing the timestep
 
 ```
-need to set the "speed" of the frame displays.
+Need to set the "speed" of the frame displays.
 By default, a while (true) ... loop will go as fast as the CPU can handle it.
 So, it will vary based on the CPU.
 
@@ -252,16 +258,16 @@ Framerate is no longer important.
 ### SDL_Delay
 
 ```
-we used a while loop. but, maybe, this isnt great.
+Initially, we used a while loop. This locks the porcessor - not great.
 in the real world, a while loop is a processor instruction. So it locks the core.
-(you may have noticed that it had a hard time catching your esc key? yah? yah.)
+
 The while loop will use up 100% of the CPU core. So yah, this is bad.
 
 Use a "proper" delay function.
 
 SDL_Delay(Uint32 ms);  
 
-so obviously, this uses a sleep, and a releases the CPU. (The CPU will wake us up.)
+(probably) This uses a sleep, and a releases the CPU. (The CPU will wake us up.)
 
 ```
 
@@ -363,7 +369,6 @@ class Compnent {
     virtual Render();
 }
 
-[comment: he has a entity manager, and owner pointer? interesting. and redundant, I think.]
 
 So, we could create a child of the component like this:
 
@@ -380,8 +385,6 @@ class TransformComponent: public Component {
     ...
     }
 }
-
-[sigh, he creates a position vector, but not a one for width and height? ok doke.]
 
 And another:
 
@@ -405,7 +408,7 @@ Game holds the Entity manager.
 
 [chain of responsibility]
 
-````
+```
 
 
 ## C++ Generics some notes
@@ -446,12 +449,14 @@ Recall a folder called assets/images.
 
 
 In his game:
+
 * sprite has a transparent background
 * 32x32 pixels 
 * pointer to asset manager
 * has file map 
 
 Animated sprites:
+
 * one png file, transparent background
 * but, broken into cells of equal size 2x4
 * so you can cut 32x32 images
@@ -461,6 +466,7 @@ Animated sprites:
 * first column to second column basically moved the blades - so standing still animation
 
 OK, back to code. :-)
+
 ```
 
 ## Maps and Tiles
@@ -469,7 +475,7 @@ First, need t give credit, asset for tiles copied from:
 https://github.com/carlbirch/BirchEngine/blob/master/BirchEngine/assets/terrain_ss.png
 Also borrowed the map file. 
 
-Next,
+Next:
 
 Recall .map and .png files. (so jungle.png and jungle.map)
 
