@@ -31,6 +31,8 @@ class Game {
         void Destroy();
         void HandleCameraMovement();
         void CheckCollisions();
+        void ProcessNextLevel(int level);
+        void ProcessGameOver();
 
 };
 
