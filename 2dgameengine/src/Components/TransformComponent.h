@@ -40,18 +40,7 @@ class TransformComponent: public Component {
             position.x += velocity.x * deltaTime;
             position.y += velocity.y * deltaTime;
             if (bounded) {
-                if (position.x + width >= WINDOW_WIDTH) {
-                    position.x = WINDOW_WIDTH - width;
-                }
-                if (position.x <= 0) {
-                    position.x = 0;
-                }
-                if (position.y + height >= WINDOW_HEIGHT) {
-                    position.y = WINDOW_HEIGHT - height;
-                }
-                if (position.y <= 0) {
-                    position.y = 0;
-                }
+                 // todo: need to be bounded
             }
         }
 
