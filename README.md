@@ -649,4 +649,11 @@ This is presumes that the we accept the collection of entities is someone cached
 
 
         
+## Text
+
+```
+Going to use Asset manager to add list of fonts(TTL_Font)s
+
+
+```
 

@@ -8,6 +8,7 @@
 #include "./Components/ColliderComponent.h"
 #include "./Components/ColliderBoxComponent.h"
 #include "./Components/KeyboardControlComponent.h"
+#include "./Components/TextLabelComponent.h"
 #include "../lib/glm/glm.hpp"
 
 EntityManager manager;
@@ -31,6 +32,10 @@ bool Game::IsRunning() const {
 void Game::Initialize(int width, int height) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cerr << "Error initializing SDL." << std::endl;
+        return;
+    }
+    if (TTF_Init() !=0 ) {
+        std::cerr << "Error initializing TTF." << std::endl;
         return;
     }
     window = SDL_CreateWindow(
@@ -68,6 +73,8 @@ void Game::LoadLevel(int levelNumber) {
     assetManager->AddTexture("heliport-image", std::string("./assets/images/heliport.png").c_str());
     assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
     assetManager->AddTexture("collision-texture", std::string("./assets/images/collision-texture.png").c_str());
+    assetManager->AddFont("charriot-font", std::string("./assets/fonts/charriot.ttf").c_str(), 14);
+
 
     map = new Map("jungle-tiletexture", 2, 32);
     map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
@@ -98,7 +105,11 @@ void Game::LoadLevel(int levelNumber) {
     heliport.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
     heliport.AddComponent<SpriteComponent>("heliport-image", 1, 0, false, false);
     heliport.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
-    
+   
+    // sample TEXT
+    Entity& labelLevelName(manager.AddEntity("LabelLevelName", UI_LAYER));
+    labelLevelName.AddComponent<TextLabelComponent>(10,10, "First Level ...", "charriot-font",WHITE_COLOR); 
+
     //manager.ListOutEntities();
     //manager.AnyTransforms();
 }
