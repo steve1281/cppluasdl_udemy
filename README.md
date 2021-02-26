@@ -471,6 +471,7 @@ OK, back to code. :-)
 
 ## Maps and Tiles
 
+```
 First, need t give credit, asset for tiles copied from:
 https://github.com/carlbirch/BirchEngine/blob/master/BirchEngine/assets/terrain_ss.png
 Also borrowed the map file. 
@@ -482,4 +483,170 @@ Recall .map and .png files. (so jungle.png and jungle.map)
 So we need to read the csv file. And then load the vector of tiles based on this.
 So, the png is a "texture"
 Also, we have a camera, which tracks what part of the map should move. 
+```
+
+## Issues with component-design
+
+```
+Issues with complexity; specifically the CheckCollisions.
+
+```
+For example, given entities A B C D E, we currently check:
+  A - ( A B C D E)
+  B - ( A B C D E)
+  C - ( A B C D E)
+  D - ( A B C D E)
+  E - ( A B C D E)
+
+(a if is used to check if its the not the same, but no other optimization)
+
+First thoughts; you could check only once (like a bubble sort):
+  A - (B C D E)
+  B - (C D E)
+  C - (D E)
+  D - (E)
+
+The issue is, we still are comparing, every single frame, all the components.
+This is due the use of component based designed.
+
+```
+
+# General discussion of Entity Component System Design (ECS)
+
+```
+In modern systems, we don't use the component design we used.  (due to the complexity)
+
+So, what is ECS, how does it work with data?
+
+Our implementation, we use Entity-Component. 
+An entity has a list of components inside of it. A container for components.
+Components have data and logic.
+With this approach, we need to loop all the entities, for things like collisions.
+This is an OOP approach, so it leans for people to be able think about it. But performance...?
+
+Professor... is trying to say OOP design is slower. I don't actually agree with this, but its his course.
+
+Entity-Component-System
+
+Engines like Unity use a ECS 
+What is the difference?
+
+Pure data oriented ECS.  Entities are nothing more than an ID (a number).
+The represent objects.
+
+Components are just data.
+
+So Transform would like :
+
+  struct TransformComponent {
+      glm:vec2 position;
+      glm:vec2 scale;
+      double rotation;
+  }
+
+They are organized into a contigous lists to optimize access. 
+
+Systems are the logic (code) that the game runs.
+You could have a MovementSystem which updates the positions of all moving entities by their velocity frame by frame.
+The movement system ONLY loops the entities that entities that have a "specific" type of component (Tranform)
+
+Better example, CollisionSystem.  Checks the collisions of entities that have a collider component frame by frame.
+(so no if to check if it has a collsion. somehow.)
+
+Example:
+
+// Entities: Just an ID
+// Components: Plain data (no logic)
+// Systems: Perform logic on components and entities
+
+class Entity {
+    int id;
+}
+
+struct TransformComponent {
+    glm::vec2 position;
+    glm::vec2 scale;
+    double rotation;
+};
+
+struct VelocityComponent {
+    glm::vec2 velocity;
+};
+
+class MovementSystem {
+    public:
+        MovementSystem() {
+            RequireComponent<TransformComponent>();
+            RequireComponent<VelocityComponent>();
+        }
+        void Update(double deltaTime) {
+            for (auto entity: GetEntities()) {
+                VelocityComponent& velocity = entity.GetComponent<VelocityComponent>();
+                TranformComponent& transform = entity.GetComponent<TransformComponent>();
+                transform.position.x += rigidbody.velocity.x * deltaTime;
+                transform.position.y += rigidbody.velocity.y * deltaTime;
+            }
+        }
+};
+
+
+
+No exactly sure where he is going with this.
+
+I suppose, given entity list like [ 0, 1, 2, 3, 4 , ..., 10000 ]
+You could create seperate lists.
+
+EntityWithTransform = [2 , 3]
+EntityWithCollision = [1, 2, 3, 12]
+etc.
+
+So instead of hanging the property onto a complex thing like an attribute, you would create a
+list of entites that have this attribute. 
+
+(which is what I did to optimize the original collisions problem; create a list of those entities that
+have this attribute of collisions.  Except in my solution, there was a huge redundancy.  Using the ECS 
+approach removes that redundancy.)
+
+Back to his examples.
+
+So, using ECS, we can create a much better collision solution:
+
+class Entity {
+    int id;
+}
+
+struct ColliderComponent {
+    SDL_Rect collider;
+};
+
+class CollisionSystem {
+    public:
+        CollisionSystem() {
+            RequireComponent<ColliderComponent>();
+        }
+        void Update(double deltaTime) {
+            //Loop
+            for (auto entity: GetEntities()) {
+                ColliderComponent& collider = entity.GetComponent<ColliderComponent>();
+                   // collider logic ...
+                   // ....
+            }
+        }
+};
+
+
+The key here is, _we know_ what the things have a collider up front. WE DO NOT IF to find them. 
+Much faster.
+
+At this point, we will continue with our approach.  Professor just want to point out that ECS is better.
+
+Warning about the quiz that follows this.  The second question : One of the benefits is using data-oriented design is to improve performance by avoiding cache misses.
+
+This is presumes that the we accept the collection of entities is someone cached someplace?  I think what he is trying get out of this question is "We only ever look at exactly what we need." So in effect, we are preloading the cache with a list of entities that match our criteria. (or in fact, maintaining seperate lists.) So, not a cache miss per se. 
+
+```
+
+
+
+        
 
