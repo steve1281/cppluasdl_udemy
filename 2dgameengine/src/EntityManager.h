@@ -19,6 +19,9 @@ class EntityManager {
         unsigned int GetEntityCount();
         CollisionType CheckCollisions() const;
 
+
+        void DestroyInactiveEntities() ;
+
         // as an exercise, add couple methods...
         void ListOutEntities();
         void AnyTransforms();
