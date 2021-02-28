@@ -819,5 +819,18 @@ Note, sol is doing the casts for us, which is kinda neat.
 
 
 
+## Replace C++ load level logic with LUA
+```
+Some notes on vim.
+
+Professor uses "vsplit <filename>" to split the screen, which is cool. (alternatively, "vsp")
+You can horizontal split with just "sp".
+You can move using ctrl-w <direction> where direction is j,k,h,l.
+There are number of other things, resizing and such. ctrl-w - and +
+And you can close an active window with "ctrl-w q"
+
+Also ctrl-w ctrl-w to switch between windows.
+
+Also, if you go the vertical approach, recall you can turn wrap off with ":set nowrap"
 
 ```
