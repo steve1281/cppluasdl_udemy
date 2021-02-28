@@ -663,4 +663,25 @@ Going to use Asset manager to add list of fonts(TTL_Font)s
 
 
 ```
+## Discussion of EVENT SYSTEMS
+
+```
+Used to decouple game loop from the things like the collisions.
+The idea of "listening for events".
+The listener isn't aware of who is emitting the event (well thats what he said? )
+The entity emitting the even doesn't know who is listening to it. 
+
+You don't necessarily need an event system (we are not implementing one in this course).
+However, there are some circumstances when you may want to.
+
+Commonly used for:
+- key pressed
+- collision happens
+- player health reaches say 10%,
+- mouse is clicked
+- etc
+
+Modern game systems typically use even system. You subscribe to event. Events are published.
+```
+
 
