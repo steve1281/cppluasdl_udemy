@@ -684,4 +684,140 @@ Commonly used for:
 Modern game systems typically use even system. You subscribe to event. Events are published.
 ```
 
+## Adding and using LUA
+```
+The idea is to use a scripting langauge to modifying the "data" that drives the game.
 
+You could use XML/json etc, but LUA is a a real programming language so we can get more uses from it.
+
+LUA is pretty simple langauge.
+
+Example:
+
+    screen_width = 800
+    screen_height = 600
+
+    point = {
+        x = 5.0,
+        y = 0.0
+    }
+
+    function fullscreen_width(w, r)
+        local w = 0
+        if r == 1 then
+            w = 14400
+        end
+        return w
+    end
+
+    function fullscreen_height(h, r)
+        local h = 0
+        if r ==1 then
+            h = 900
+        end
+        return h
+    end
+
+The key advatage is that this is interpreted; it can be changed on the fly without recompilation.
+
+Note the professer had us add this in early on, including sol.hpp:
+
+  lib/lua
+  ├── lauxlib.h
+  ├── luaconf.h
+  ├── lua.h
+  ├── lua.hpp
+  ├── lualib.h
+  └── sol.hpp
+
+Interpreting LUA (snippit code):
+
+  extern "C" {
+      #include "../lib/lua/lua.h"
+      #include "../lib/lua/luaxlib.h"
+      #include "../lib/lua/lualib.h" 
+  }
+
+  int main() {
+        lua_State *L = luaL_state();
+        std::string luaCommand = "ball_pos = 5 + 2"; 
+
+        int res = luaL_dostring(L, luaCommand.c_str());
+
+        if (res == LUA_OK) {
+            lua_getglobal(L, "ball_pos");
+            if (lua_isnumber(L, -1)) {
+                float ball_pos_in_cpp = (float) lua_tonumber(L, -1); // 7.0
+            }
+        } else {
+            std::string errorMsg = lua_tostring(L, -1);
+            std::cout << errorMsg << std::endl;
+        }
+        return 0;
+  }
+
+
+This is pretty simple example, but you can read in a file, and that file is a full program.
+This allows us to move a lot logic to an interpretted langauge, while keeping the stuff that
+needs to be "fast" in the C++ code.
+
+Discussion of LUA Stack:
+LUA lets us refer via negative indices, so -1 lets us get the top of stack"
+
+   |___| 4  | -1
+   |___| 3  | -2
+   |___| 2  | -3
+   |___| 1  | -4
+   |___| 0  | -5
+ 
+The "sol2" library/framework simplifies this, example:
+
+  #include "./lib/lua/sol.hpp"
+  
+  int main(int argc,  char *argv[]) {
+        sol::state lua;
+        lua.open_libraries(sol::lib::base, sol::lib::string); // variable list of libs
+        lua.script("print('Hello world using LUA & Sol!')"); // or a filename 
+        return 0;
+  }
+
+(note: lua --> moon, sol --> moon in Portuguese)
+
+This is less verbose, and hides some of the complexity nicely.
+
+More interesting example:
+
+  -- ./assets/scripts/config.lua:
+  config = {
+    fullscreen  = false
+    resolution = { x = 1024, y = 768 }
+  }
+
+  // main.cpp
+  #include "./lib/lua/sol.hpp"
+  
+  int main() {
+        sol::state lua;
+        lua.script_file("./assets/scripts/config.lua");
+        bool isFullScreen = lua["config"]["fullscreen"];
+        sol::table config = lua["config"]
+        int resolutionX = config["resolution"]["x"];
+        int resolutionY = config["resolution"]["y"];
+
+        if (isFullScreen) {
+            std::cout << "It is full screen..." << std:endl;
+        }
+        return 0;
+  }
+
+Note. LUA script as created a table. Within the table, is also a table. 
+Access is like a dictionary. (very python-like imho)
+Note, sol is doing the casts for us, which is kinda neat.
+
+```
+
+
+
+
+
+```
