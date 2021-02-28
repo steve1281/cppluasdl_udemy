@@ -97,7 +97,9 @@ void Game::LoadLevel(int levelNumber) {
     projectile.AddComponent<TransformComponent>(150+16, 495+16, 0, 0, 4, 4, 1);
     projectile.AddComponent<SpriteComponent>("projectile-image"); //,1 , 0, false, false); 
     projectile.AddComponent<ColliderComponent>("PROJECTILE",150+16, 495+16,4,4);
-    projectile.AddComponent<ProjectileEmitterComponent>(50, 270, 200, false);  // velocity, degrees, range, multiples
+    projectile.AddComponent<ProjectileEmitterComponent>(50, 270, 200, true);  // velocity, degrees, range, loop
+    projectile.AddComponent<ColliderBoxComponent>("collision-texture");
+    projectile.AddComponent<KeyboardControlComponent>();
 
 
 
@@ -196,6 +198,9 @@ void Game::HandleCameraMovement() {
 void Game::CheckCollisions() {
     CollisionType collisionType =  manager.CheckCollisions();
     if (collisionType == PLAYER_ENEMY_COLLISION) {
+        ProcessGameOver();
+    }
+    if (collisionType == PLAYER_PROJECTILE_COLLISION) {
         ProcessGameOver();
     }
     if (collisionType == PLAYER_LEVEL_COMPLETE_COLLISION) {
