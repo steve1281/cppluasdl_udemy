@@ -3,6 +3,17 @@
 ----------------------------------------------------
 math.randomseed(os.time())
 
+-- 
+-- set the terrain map to night mode if after 8pm
+--
+time = os.date("*t")
+if (time.hour >= 20 ) then
+    terrain = "terrain-texture-night"
+else
+    terrain = "terrain-texture-day"
+end
+
+
 Level1 = {
     ----------------------------------------------------
     -- Table to define the list of assets
@@ -45,11 +56,12 @@ Level1 = {
         [33] = { type="font", id = "charriot-font", file = "./assets/fonts/charriot.ttf", fontSize = 14 }
     },
 
+
     ----------------------------------------------------
     -- table to define the map config variables
     ----------------------------------------------------
     map = {
-        textureAssetId = "terrain-texture-day",
+        textureAssetId = terrain, -- "terrain-texture-day",
         file = "./assets/tilemaps/jungle.map",
         scale = 2,
         tileSize = 32,
