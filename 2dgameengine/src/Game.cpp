@@ -90,7 +90,7 @@ void Game::LoadLevel(int levelNumber) {
             if (assetType.compare("texture") == 0) {
                 std::string assetId = asset["id"];
                 std::string assetFile = asset["file"];
-                std::cout << "Asset File is " << assetFile << std::endl;
+                //std::cout << "Asset File is " << assetFile << std::endl;
                 assetManager->AddTexture(assetId,assetFile.c_str());
             }
             if (assetType.compare("font") == 0) {
